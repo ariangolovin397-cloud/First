@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My To do</title>
     <style>
-.checked {
-    text-decoration: line-through;
-    color: gray;
-}
-.deleteBtn {
+        .checked {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .deleteBtn {
             margin-left: 10px;
             color: red;
             font-weight: bold;
@@ -18,17 +20,23 @@
 
         li {
             margin: 5px 0;
+            list-style-type: none;
         }
-</style>
+
+        .task-text {
+            margin-left: 8px;
+        }
+    </style>
 </head>
+
 <body>
     <div id="myDIV" class="header">
         <h2 style="margin:5px">My To Do List</h2>
         <input type="text" id="myInput" placeholder="Title...">
-        <span onclick="newElement()" class="addBtn">Add</span>
+        <button onclick="newElement()" class="addBtn">Add</button>
     </div>
 
-<br>
+    <br>
 
     <label for="categorySelect">Kategorija</label>
     <select id="categorySelect">
@@ -43,46 +51,52 @@
 
 
     <script>
-    function newElement() {
+        function newElement() {
 
-    let inputValue = document.getElementById("myInput").value;
-    let category = document.getElementById("categorySelect").value;
+            const inputValue = document.getElementById("myInput").value;
+            const category = document.getElementById("categorySelect").value;
 
-    if (inputValue === "") {
-        alert("Ievadi tekstu!");
-        return;
-    }
+            if (inputValue === "") {
+                alert("Ievadi tekstu!");
+                return;
+            }
 
-    let li = document.createElement("li");
-            li.textContent = inputValue + " (" + category + ")";
+            const li = document.createElement("li");
 
-            
-            li.onclick = function() {
-                li.classList.toggle("checked");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+
+            const spanText = document.createElement("span");
+            spanText.textContent = inputValue + "  (" + category + ")";
+            spanText.className = "task-text";
+
+            checkbox.onchange = function () {
+                if (checkbox.checked) {
+                    spanText.classList.add("checked");
+                } else {
+                    spanText.classList.remove("checked");
+                }
             };
-
-            
-            let deleteBtn = document.createElement("span");
+            const deleteBtn = document.createElement("span");
             deleteBtn.textContent = " ×";
             deleteBtn.className = "deleteBtn";
 
-            
-            deleteBtn.onclick = function(event) {
-                event.stopPropagation(); 
+            deleteBtn.onclick = function () {
                 li.remove();
             };
 
-            
+            li.appendChild(checkbox);
+            li.appendChild(spanText);
             li.appendChild(deleteBtn);
 
-            
+
             document.getElementById("myUL").appendChild(li);
 
-            
             document.getElementById("myInput").value = "";
-}
-</script>
+        }
+    </script>
     <br><br>
 
 </body>
+
 </html>
