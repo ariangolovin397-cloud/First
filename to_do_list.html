@@ -69,6 +69,10 @@
             const spanText = document.createElement("span");
             spanText.textContent = inputValue + "  (" + category + ")";
             spanText.className = "task-text";
+            spanText.onclick = function () {
+                checkbox.checked = !checkbox.checked;
+                checkbox.onchange();
+            };
 
             checkbox.onchange = function () {
                 if (checkbox.checked) {
@@ -81,7 +85,8 @@
             deleteBtn.textContent = " ×";
             deleteBtn.className = "deleteBtn";
 
-            deleteBtn.onclick = function () {
+            deleteBtn.onclick = function (b_1) {
+                console.log("dell", b_1);
                 li.remove();
             };
 
