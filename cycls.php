@@ -5,7 +5,7 @@
 <?php
 $first = "Hi";
 echo "<h1>".$first."</h1>";
-
+// 1
 $people = ["Maxim","Nikita","Markus"];
 $items  = ["Apple", "Banana", "Orange"]; 
 $len    = count($items);
