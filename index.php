@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
+    <a href="#map">Map</a>
 <form method="POST">
 
     <input type="text" name="num1" placeholder="Number 1">
