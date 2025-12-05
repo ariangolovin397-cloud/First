@@ -14,8 +14,8 @@ http.createServer((req, res) => {
     const action = parsedUrl.searchParams.get('action')
 
     const form = `
+            
             <form method="GET">
-                <form method="GET">
             <input type="text" name="num1" placeholder="Number 1" value="${num1 ?? ''}"><br><br>
             <input type="text" name="num2" placeholder="Number 2" value="${num2 ?? ''}"><br><br>
     
