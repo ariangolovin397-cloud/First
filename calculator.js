@@ -14,7 +14,6 @@ http.createServer((req, res) => {
     const action = parsedUrl.searchParams.get('action')
 
     const form = `
-            
             <form method="GET">
             <input type="text" name="num1" placeholder="Number 1" value="${num1 ?? ''}"><br><br>
             <input type="text" name="num2" placeholder="Number 2" value="${num2 ?? ''}"><br><br>
@@ -43,7 +42,7 @@ http.createServer((req, res) => {
         return;
     }
 
-    if (num1 === null || num2 === null || action === "") {
+    if (num1 === "" || num2 === "" || action === "") {
 
         res.end(`
             ${form}
