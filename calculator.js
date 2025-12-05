@@ -1,9 +1,9 @@
-function lock() { } // named function
-const a = function () { } // anonymous function
-const b = (p = 0) => { return p + 1 } // arrow function
-const mop = b(5)
-const c = p => ++p  // arrow function shorthand
-const cop = c(3)
+// function lock() { } // named function
+// const a = function () { } // anonymous function
+// const b = (p = 0) => { return p + 1 } // arrow function
+// const mop = b(5)
+// const c = p => ++p  // arrow function shorthand
+// const cop = c(3)
 
 const http = require("http");
 
@@ -37,6 +37,7 @@ http.createServer((req, res) => {
     if (parsedUrl.pathname === '/') {
         console.log(parsedUrl);
         console.log({ num1, num2, action });
+        console.log("Test", !num1 || !num2 || !action);
     } else {
         res.end();
         return;
@@ -51,11 +52,32 @@ http.createServer((req, res) => {
         return;
     }
 
-    // here implement action e.g. num1 + num2 etc.
+    const a = Number(num1);
+    const b = Number(num2);
 
+    let result;
+
+    switch (action) {
+        case "add":
+            result = a + b;
+            break;
+        case "sub":
+            result = a - b;
+            break;
+        case "mul":
+            result = a * b;
+            break;
+        case "div":
+            if (b === 0) {
+                result = "Division by zero!";
+            } else {
+                result = a / b;
+            }
+            break;
+    }
     res.end(`
         ${form}
-        // here add the result to display it to user
+        Result: ${result}
     `);
 }).listen(3000, () => {
     console.log("http://localhost:3000");
