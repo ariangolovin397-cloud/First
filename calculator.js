@@ -28,12 +28,22 @@ const form = `
 
 http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-    console.log(parsedUrl);
-    const { num1, num2, action } = parsedUrl.searchParams;
+    const num1 = parsedUrl.searchParams.get('num1')
+    const num2 = parsedUrl.searchParams.get('num2')
+    const action = parsedUrl.searchParams.get('action')
 
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
 
-    if (num1 === undefined || num2 === undefined || action === undefined) {
+    if (parsedUrl.pathname === '/') {
+        console.log(parsedUrl);
+        console.log({ num1, num2, action });
+    } else {
+        res.end();
+        return;
+    }
+
+    if (!num1 || !num2 || !action) {
+
         res.end(`
             ${form}
             <p style="color: red">All numbers and action must be defined</p>
@@ -41,7 +51,12 @@ http.createServer((req, res) => {
         return;
     }
 
-    res.end();
+    // here implement action e.g. num1 + num2 etc.
+
+    res.end(`
+        ${form}
+        // here add the result to display it to user
+    `);
 }).listen(3000, () => {
     console.log("http://localhost:3000");
 });
