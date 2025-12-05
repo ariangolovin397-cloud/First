@@ -42,7 +42,7 @@ http.createServer((req, res) => {
         return;
     }
 
-    if (num1 === "" || num2 === "" || action === "") {
+    if (!num1 || !num2 || !action) {
 
         res.end(`
             ${form}
