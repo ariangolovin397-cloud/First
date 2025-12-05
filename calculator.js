@@ -7,31 +7,31 @@
 
 const http = require("http");
 
-const form = `
-        <form method="GET">
-            <input type="text" name="num1" placeholder="Number 1"><br><br>
-            <input type="text" name="num2" placeholder="Number 2"><br><br>
-
-            <select name="action">
-                <option value="">Select action</option>
-                <option value="add">+</option>
-                <option value="sub">-</option>
-                <option value="mul">*</option>
-                <option value="div">/</option>
-            </select>
-            <br><br>
-
-            <button type="submit">Calculate</button>
-        </form>
-        <hr>
-    `
-
 http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const num1 = parsedUrl.searchParams.get('num1')
     const num2 = parsedUrl.searchParams.get('num2')
     const action = parsedUrl.searchParams.get('action')
 
+    const form = `
+            <form method="GET">
+                <form method="GET">
+            <input type="text" name="num1" placeholder="Number 1" value="${num1 ?? ''}"><br><br>
+            <input type="text" name="num2" placeholder="Number 2" value="${num2 ?? ''}"><br><br>
+    
+            <select name="action">
+                <option value="">Select action</option>
+                <option value="add" ${action === "add" ? "selected" : ""}>+</option>
+                <option value="sub" ${action === "sub" ? "selected" : ""}>-</option>
+                <option value="mul" ${action === "mul" ? "selected" : ""}>*</option>
+                <option value="div" ${action === "div" ? "selected" : ""}>/</option>
+            </select>
+            <br><br>
+    
+            <button type="submit">Calculate</button>
+        </form>
+        <hr>
+        `
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
 
     if (parsedUrl.pathname === '/') {
@@ -43,7 +43,7 @@ http.createServer((req, res) => {
         return;
     }
 
-    if (!num1 || !num2 || !action) {
+    if (num1 === null || num2 === null || action === "") {
 
         res.end(`
             ${form}
