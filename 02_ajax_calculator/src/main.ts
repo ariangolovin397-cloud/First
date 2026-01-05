@@ -30,75 +30,43 @@ const button_vienad = document.getElementById("button_vienad")!;
 let firstNumber: number | null = null;
 let currentOperator: string | null = null;
 
-button_1.onclick = function () {
+function onNumberClick(numm: string) {
     if (display.textContent === "0") {
-        display.textContent = "1"
+        display.textContent = numm
     } else {
-        display.textContent = display.textContent + "1";
+        display.textContent = display.textContent + numm;
     }
+}
+
+button_1.onclick = function () {
+    onNumberClick("1")
 };
 button_2.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "2"
-    } else {
-        display.textContent = display.textContent + "2";
-    }
+    onNumberClick("2")
 };
 button_3.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "3"
-    } else {
-        display.textContent = display.textContent + "3";
-    }
+    onNumberClick("3")
 };
 button_4.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "4"
-    } else {
-        display.textContent = display.textContent + "4";
-    }
+    onNumberClick("4")
 };
 button_5.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "5"
-    } else {
-        display.textContent = display.textContent + "5";
-    }
+    onNumberClick("5")
 };
 button_6.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "6"
-    } else {
-        display.textContent = display.textContent + "6";
-    }
+    onNumberClick("6")
 };
 button_7.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "7"
-    } else {
-        display.textContent = display.textContent + "7";
-    }
+    onNumberClick("7")
 };
 button_8.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "8"
-    } else {
-        display.textContent = display.textContent + "8";
-    }
+    onNumberClick("8")
 };
 button_9.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "9"
-    } else {
-        display.textContent = display.textContent + "9";
-    }
+    onNumberClick("9")
 };
 button_0.onclick = function () {
-    if (display.textContent === "0") {
-        display.textContent = "0"
-    } else {
-        display.textContent = display.textContent + "0";
-    }
+    onNumberClick("0")
 };
 button_reiz.onclick = function () {
     firstNumber = Number(display.textContent);
