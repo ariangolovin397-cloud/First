@@ -38,6 +38,12 @@ function onNumberClick(numm: string) {
     }
 }
 
+function onOperatorClick(operator: string) {
+    firstNumber = Number(display.textContent);
+    currentOperator = operator
+    display.textContent = "0";
+}
+
 button_1.onclick = function () {
     onNumberClick("1")
 };
@@ -69,14 +75,10 @@ button_0.onclick = function () {
     onNumberClick("0")
 };
 button_reiz.onclick = function () {
-    firstNumber = Number(display.textContent);
-    currentOperator = "*";
-    display.textContent = "0";
+    onOperatorClick("*")
 };
 button_dal.onclick = function () {
-    firstNumber = Number(display.textContent);
-    currentOperator = "/";
-    display.textContent = "0";
+    onOperatorClick("/")
 };
 button_del.onclick = function () {
     display.textContent = "0";
@@ -84,14 +86,10 @@ button_del.onclick = function () {
     currentOperator = null;
 };
 button_plus.onclick = function () {
-    firstNumber = Number(display.textContent);
-    currentOperator = "+";
-    display.textContent = "0";
+    onOperatorClick("+")
 };
 button_minus.onclick = function () {
-    firstNumber = Number(display.textContent);
-    currentOperator = "-";
-    display.textContent = "0";
+    onOperatorClick("-")
 };
 button_vienad.onclick = function () {
     if (firstNumber === null || currentOperator === null) return;
