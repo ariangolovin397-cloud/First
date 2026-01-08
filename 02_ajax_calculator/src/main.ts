@@ -26,8 +26,10 @@ const button_plus = document.getElementById("button_plus")!;
 const button_minus = document.getElementById("button_minus")!;
 const button_del = document.getElementById("button_del")!;
 const button_vienad = document.getElementById("button_vienad")!;
+const button_save = document.getElementById("button_save")!;
 
 let firstNumber: number | null = null;
+let secondNumber: number | null = null;
 let currentOperator: string | null = null;
 
 function onNumberClick(numm: string) {
@@ -94,7 +96,7 @@ button_minus.onclick = function () {
 button_vienad.onclick = function () {
     if (firstNumber === null || currentOperator === null) return;
 
-    const secondNumber = Number(display.textContent);
+    secondNumber = Number(display.textContent);
     let result = 0;
 
     if (currentOperator === "+") {
@@ -114,3 +116,24 @@ button_vienad.onclick = function () {
     firstNumber = null;
     currentOperator = null;
 };
+button_save.onclick = function () {
+    const value = display.textContent;
+    fetch("/api/display", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ displayValue: value }) })
+        .then(response => response.json())
+        .then(data => { console.log("Server response:", data) });
+};
+
+fetch("/api/hello", { body: JSON.stringify({ data: "time" }), method: "POST" })
+    .then(response => response.json())
+    .then(data => console.log(data));
+
+const url = "/api/hello";
+const body = { data: "time" };
+const bodyString = JSON.stringify(body);
+const options = { body: bodyString, method: "POST", tmp: "" };
+const responseCallback = (response: any) => response.json();
+const dataCallback = (data: any) => console.log(data);
+
+fetch(url, options)
+    .then(responseCallback)
+    .then(dataCallback);
