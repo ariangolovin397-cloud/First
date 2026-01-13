@@ -120,7 +120,8 @@ button_save.onclick = function () {
     const value = display.textContent;
     fetch("/api/display", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ displayValue: value }) })
         .then(response => response.json())
-        .then(data => { console.log("Server response:", data) });
+        .then(data => { console.log("Server response:", data) })
+        .catch(err => console.error(err));
 };
 
 fetch("/api/hello", { body: JSON.stringify({ data: "time" }), method: "POST" })
