@@ -15,6 +15,9 @@
 //     selected = "";
 // } 
 
+/**
+ * template literal
+ * /
 // `
 //         <form method="GET">
 //         <input type="text" name="num1" placeholder="Number 1" value=""><br><br>
@@ -32,14 +35,18 @@
 //         <button type="submit">Calculate</button>
 //     </form>
 //     <hr>
-//     `; //template literal
+//     `; 
+
+/**
+ * clasic string
+ * */
 // const select = "<select name=\"action\">" +
 //     "<option value=\"\">Select action</option>" +
 //     "<option value=\"add" + action === "add" ? "selected" : "" + ">+</option>" +
 //         "<option value=\"sub" + action === "sub" ? "selected" : "" + ">-</option>" +
 //             "<option value=\"mul" + action === "mul" ? "selected" : "" + ">*</option>" +
 //                 "<option value=\"div" + action === "div" ? "selected" : "" + ">/</option>" +
-// "</select>"; // clasic string
+// "</select>"; 
 
 // const fs = require("fs");
 
@@ -68,6 +75,19 @@
 
 // fnWithCallback(cb);
 // fnWithCallback(ab);
+
+/**
+ * ways to get objects
+ */
+// const obj = {};
+// const ob = new Object();
+// const o = Object.create({});
+
+// class MyObject{};
+// const myObj = new MyObject();
+
+// function AnotherObj() {}
+// const anotherObj = new AnotherObj();
 
 const http = require("http");
 
