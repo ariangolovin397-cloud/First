@@ -1,4 +1,9 @@
-.venv/  
-__pycache__/  # Кэш байткода Python
-*.pyc  # Скомпилированные файлы Python
-tasks.db  
+# Виртуальное окружение
+.venv/
+
+# Кэш байткода Python
+__pycache__/
+*.pyc
+
+# База данных
+tasks.db
