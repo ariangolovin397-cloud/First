@@ -1,10 +1,7 @@
 import database
 
-# Убрали import sys, так как sys.exit больше не нужен
-
 
 def print_menu():
-    # Перевели меню на русский для единообразия
     print("\n==== МЕНЕДЖЕР ЗАДАЧ ====\n")
     print("1. Добавить задачу")
     print("2. Список задач")
@@ -12,7 +9,7 @@ def print_menu():
     print("4. Редактировать задачу")
     print("5. Завершить задачу")
     print("6. Удалить задачу")
-    print("7. Вернуть в работу (pending)") # Доп. задание
+    print("7. Вернуть в работу (pending)")
     print("0. Выход")
 
 
@@ -34,7 +31,7 @@ def read_non_empty(prompt: str) -> str:
 
 
 def ask_existing_task():
-    """Выносим дублирующийся код в хелпер (как просил преподаватель)."""
+    """Запрашивает ID и возвращает задачу или None, если ввод неверный или задачи нет."""
     task_id = read_int("ID задачи: ")
     if task_id is None:
         return None
@@ -62,7 +59,6 @@ def cmd_list_tasks():
     print(f"{'ID':<5}{'СТАТУС':<10}НАЗВАНИЕ")
     print("-" * 40)
     for task in tasks:
-        # Благодаря sqlite3.Row обращаемся по имени, а не по индексу
         print(f"{task['id']:<5}{task['status']:<10}{task['title']}")
 
 
@@ -72,7 +68,6 @@ def cmd_view_task():
     if task is None:
         return
     
-    # Используем доступ по ключам вместо индексов
     print(f"ID:          {task['id']}")
     print(f"Название:    {task['title']}")
     print(f"Описание:    {task['description'] if task['description'] else '(пусто)'}")
@@ -92,18 +87,17 @@ def cmd_edit_task():
         new_title = task['title']
 
     print(f"Текущее описание: {task['description'] if task['description'] else '(пусто)'}")
-    new_description = input("Новое описание (Enter — оставить): ").strip()
-    if not new_description:
+    # Добавлена возможность очистить описание через ввод "-"
+    new_description = input("Новое описание (Enter — оставить, '-' — очистить): ").strip()
+    if new_description == "-":
+        new_description = ""
+    elif not new_description:
         new_description = task['description']
 
-    if not new_title:
-        print("Ошибка: название не может быть пустым.")
-        return
-
+    # Убрана проверка if not new_title, так как выше мы гарантировали, что оно не пустое
+    
     if database.update_task(task['id'], new_title, new_description):
         print("Задача обновлена.")
-    else:
-        print("Ошибка обновления.")
 
 
 def cmd_complete_task():
@@ -112,7 +106,6 @@ def cmd_complete_task():
     if task is None:
         return
     
-    # Проверка: если уже done, не делаем лишний апдейт
     if task['status'] == 'done':
         print("Задача уже выполнена.")
         return
@@ -141,7 +134,6 @@ def cmd_delete_task():
     if task is None:
         return
     
-    # Больше никаких магических task[1]!
     answer = input(f"Удалить задачу '{task['title']}'? (y/n): ").strip().lower()
     if answer not in ("y", "yes", "д", "да"):
         print("Удаление отменено.")
@@ -164,7 +156,6 @@ def main():
         "7": cmd_reopen_task,
     }
 
-    # Оборачиваем весь цикл, как просил преподаватель
     try:
         while True:
             print_menu()
@@ -172,23 +163,20 @@ def main():
 
             if choice == "0":
                 print("Выход. До свидания!")
-                break  # Используем break вместо sys.exit()
+                break
 
             action = actions.get(choice)
             if action is None:
                 print("Ошибка: неизвестный пункт меню.")
                 continue
 
-            # try/except на уровне вызываемой функции оставляем для непредвиденных ошибок БД
             try:
                 action()
+            except EOFError:
+                # Пробрасываем Ctrl+D наверх, чтобы его поймал внешний try/except
+                raise
             except Exception as exc:
                 print(f"Непредвиденная ошибка: {exc}")
 
     except (KeyboardInterrupt, EOFError):
-        # Перехватываем Ctrl+C и Ctrl+D на уровне всего цикла
         print("\nВыход.")
-
-
-if __name__ == "__main__":
-    main()
