@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import database
 
 # Убрали import sys, так как sys.exit больше не нужен
@@ -5,6 +6,13 @@ import database
 
 def print_menu():
     # Перевели меню на русский для единообразия
+=======
+import database  # Импортируем наш модуль для работы с базой данных
+
+
+def print_menu():
+    # Печатаем главное меню программы
+>>>>>>> feat/task-manager
     print("\n==== МЕНЕДЖЕР ЗАДАЧ ====\n")
     print("1. Добавить задачу")
     print("2. Список задач")
@@ -12,28 +20,52 @@ def print_menu():
     print("4. Редактировать задачу")
     print("5. Завершить задачу")
     print("6. Удалить задачу")
+<<<<<<< HEAD
     print("7. Вернуть в работу (pending)") # Доп. задание
+=======
+    print("7. Вернуть в работу (pending)")
+>>>>>>> feat/task-manager
     print("0. Выход")
 
 
 def read_int(prompt: str) -> int | None:
+<<<<<<< HEAD
     raw = input(prompt).strip()
     try:
         return int(raw)
     except ValueError:
+=======
+    # Читаем строку, убираем пробелы по краям
+    raw = input(prompt).strip()
+    try:
+        # Пытаемся превратить ввод в целое число
+        return int(raw)
+    except ValueError:
+        # Если ввели не число, сообщаем об ошибке и возвращаем None
+>>>>>>> feat/task-manager
         print("Ошибка: введите корректный числовой ID.")
         return None
 
 
 def read_non_empty(prompt: str) -> str:
+<<<<<<< HEAD
     while True:
         value = input(prompt).strip()
         if value:
             return value
+=======
+    # Зацикливаемся, пока пользователь не введет непустую строку
+    while True:
+        value = input(prompt).strip()
+        if value:  # Если строка не пустая — возвращаем её
+            return value
+        # Иначе просим ввести заново
+>>>>>>> feat/task-manager
         print("Ошибка: значение не может быть пустым.")
 
 
 def ask_existing_task():
+<<<<<<< HEAD
     """Выносим дублирующийся код в хелпер (как просил преподаватель)."""
     task_id = read_int("ID задачи: ")
     if task_id is None:
@@ -43,18 +75,38 @@ def ask_existing_task():
         print(f"Ошибка: задача с ID {task_id} не найдена.")
         return None
     return task
+=======
+    """Запрашивает ID и возвращает задачу или None, если ввод неверный или задачи нет."""
+    task_id = read_int("ID задачи: ")
+    if task_id is None:
+        return None  # Неверный ввод ID
+    task = database.get_task(task_id)  # Ищем задачу в базе
+    if task is None:
+        print(f"Ошибка: задача с ID {task_id} не найдена.")
+        return None  # Задачи с таким ID нет
+    return task  # Возвращаем найденную задачу
+>>>>>>> feat/task-manager
 
 
 def cmd_add_task():
     print("\n--- Добавление ---")
+<<<<<<< HEAD
     title = read_non_empty("Название: ")
     description = input("Описание (можно пустое): ").strip()
+=======
+    # Запрашиваем название (обязательно)
+    title = read_non_empty("Название: ")
+    # Запрашиваем описание (можно оставить пустым)
+    description = input("Описание (можно пустое): ").strip()
+    # Сохраняем задачу в базу и получаем её новый ID
+>>>>>>> feat/task-manager
     task_id = database.add_task(title, description)
     print(f"Задача создана. ID = {task_id}")
 
 
 def cmd_list_tasks():
     print("\n--- Список задач ---")
+<<<<<<< HEAD
     tasks = database.list_tasks()
     if not tasks:
         print("Список задач пуст.")
@@ -63,16 +115,35 @@ def cmd_list_tasks():
     print("-" * 40)
     for task in tasks:
         # Благодаря sqlite3.Row обращаемся по имени, а не по индексу
+=======
+    tasks = database.list_tasks()  # Получаем список всех задач
+    if not tasks:
+        print("Список задач пуст.")
+        return
+    # Печатаем шапку таблицы
+    print(f"{'ID':<5}{'СТАТУС':<10}НАЗВАНИЕ")
+    print("-" * 40)
+    # Выводим каждую задачу
+    for task in tasks:
+>>>>>>> feat/task-manager
         print(f"{task['id']:<5}{task['status']:<10}{task['title']}")
 
 
 def cmd_view_task():
     print("\n--- Просмотр ---")
+<<<<<<< HEAD
     task = ask_existing_task()
     if task is None:
         return
     
     # Используем доступ по ключам вместо индексов
+=======
+    task = ask_existing_task()  # Получаем задачу по ID (или None)
+    if task is None:
+        return
+    
+    # Выводим все поля задачи
+>>>>>>> feat/task-manager
     print(f"ID:          {task['id']}")
     print(f"Название:    {task['title']}")
     print(f"Описание:    {task['description'] if task['description'] else '(пусто)'}")
@@ -82,6 +153,7 @@ def cmd_view_task():
 
 def cmd_edit_task():
     print("\n--- Редактирование ---")
+<<<<<<< HEAD
     task = ask_existing_task()
     if task is None:
         return
@@ -104,49 +176,115 @@ def cmd_edit_task():
         print("Задача обновлена.")
     else:
         print("Ошибка обновления.")
+=======
+    task = ask_existing_task()  # Получаем задачу по ID
+    if task is None:
+        return
+
+    # Запрашиваем новое название
+    print(f"Текущее название: {task['title']}")
+    new_title = input("Новое название (Enter — оставить): ").strip()
+    if not new_title:
+        new_title = task['title']  # Если пусто — оставляем старое
+
+    # Запрашиваем новое описание
+    print(f"Текущее описание: {task['description'] if task['description'] else '(пусто)'}")
+    new_description = input("Новое описание (Enter — оставить, '-' — очистить): ").strip()
+    if new_description == "-":
+        new_description = ""  # Спецсимвол для очистки описания
+    elif not new_description:
+        new_description = task['description']  # Если пусто — оставляем старое
+
+    # Сохраняем изменения в базу
+    if database.update_task(task['id'], new_title, new_description):
+        print("Задача обновлена.")
+    else:
+        print("Ошибка: не удалось обновить задачу.")
+>>>>>>> feat/task-manager
 
 
 def cmd_complete_task():
     print("\n--- Завершение ---")
+<<<<<<< HEAD
     task = ask_existing_task()
     if task is None:
         return
     
     # Проверка: если уже done, не делаем лишний апдейт
+=======
+    task = ask_existing_task()  # Получаем задачу по ID
+    if task is None:
+        return
+    
+    # Если задача уже выполнена — сообщаем об этом
+>>>>>>> feat/task-manager
     if task['status'] == 'done':
         print("Задача уже выполнена.")
         return
 
+<<<<<<< HEAD
     if database.complete_task(task['id']):
         print("Задача отмечена как выполненная.")
+=======
+    # Меняем статус на done
+    if database.complete_task(task['id']):
+        print("Задача отмечена как выполненная.")
+    else:
+        print("Ошибка: не удалось изменить статус задачи.")
+>>>>>>> feat/task-manager
 
 
 def cmd_reopen_task():
     print("\n--- Возврат в работу ---")
+<<<<<<< HEAD
     task = ask_existing_task()
     if task is None:
         return
 
+=======
+    task = ask_existing_task()  # Получаем задачу по ID
+    if task is None:
+        return
+
+    # Если задача уже в pending — сообщаем об этом
+>>>>>>> feat/task-manager
     if task['status'] == 'pending':
         print("Задача уже в статусе pending.")
         return
 
+<<<<<<< HEAD
     if database.reopen_task(task['id']):
         print("Задача возвращена в статус pending.")
+=======
+    # Меняем статус обратно на pending
+    if database.reopen_task(task['id']):
+        print("Задача возвращена в статус pending.")
+    else:
+        print("Ошибка: не удалось изменить статус задачи.")
+>>>>>>> feat/task-manager
 
 
 def cmd_delete_task():
     print("\n--- Удаление ---")
+<<<<<<< HEAD
     task = ask_existing_task()
     if task is None:
         return
     
     # Больше никаких магических task[1]!
+=======
+    task = ask_existing_task()  # Получаем задачу по ID
+    if task is None:
+        return
+    
+    # Запрашиваем подтверждение удаления
+>>>>>>> feat/task-manager
     answer = input(f"Удалить задачу '{task['title']}'? (y/n): ").strip().lower()
     if answer not in ("y", "yes", "д", "да"):
         print("Удаление отменено.")
         return
 
+<<<<<<< HEAD
     if database.delete_task(task['id']):
         print("Задача удалена.")
 
@@ -154,6 +292,19 @@ def cmd_delete_task():
 def main():
     database.init_db()
 
+=======
+    # Удаляем задачу из базы
+    if database.delete_task(task['id']):
+        print("Задача удалена.")
+    else:
+        print("Ошибка: не удалось удалить задачу.")
+
+
+def main():
+    database.init_db()  # Создаём базу и таблицу при запуске
+
+    # Словарь: пункт меню -> функция-обработчик
+>>>>>>> feat/task-manager
     actions = {
         "1": cmd_add_task,
         "2": cmd_list_tasks,
@@ -164,6 +315,7 @@ def main():
         "7": cmd_reopen_task,
     }
 
+<<<<<<< HEAD
     # Оборачиваем весь цикл, как просил преподаватель
     try:
         while True:
@@ -174,11 +326,25 @@ def main():
                 print("Выход. До свидания!")
                 break  # Используем break вместо sys.exit()
 
+=======
+    try:
+        # Главный цикл программы
+        while True:
+            print_menu()  # Показываем меню
+            choice = input("Выберите пункт: ").strip()  # Читаем выбор
+
+            if choice == "0":
+                print("Выход. До свидания!")
+                break  # Выходим из цикла
+
+            # Ищем обработчик для выбранного пункта
+>>>>>>> feat/task-manager
             action = actions.get(choice)
             if action is None:
                 print("Ошибка: неизвестный пункт меню.")
                 continue
 
+<<<<<<< HEAD
             # try/except на уровне вызываемой функции оставляем для непредвиденных ошибок БД
             try:
                 action()
@@ -187,6 +353,18 @@ def main():
 
     except (KeyboardInterrupt, EOFError):
         # Перехватываем Ctrl+C и Ctrl+D на уровне всего цикла
+=======
+            try:
+                action()  # Вызываем выбранную функцию
+            except EOFError:
+                raise  # Пробрасываем Ctrl+D наверх
+            except Exception as exc:
+                # Ловим любые другие ошибки, чтобы программа не падала
+                print(f"Непредвиденная ошибка: {exc}")
+
+    except (KeyboardInterrupt, EOFError):
+        # Корректный выход при Ctrl+C или Ctrl+D
+>>>>>>> feat/task-manager
         print("\nВыход.")
 
 

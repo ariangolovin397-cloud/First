@@ -3,18 +3,25 @@ from datetime import datetime
 from pathlib import Path
 from contextlib import closing
 
+<<<<<<< HEAD
 # Исправление бага с путями: база всегда будет создаваться рядом с database.py
+=======
+>>>>>>> feat/task-manager
 DB_NAME = Path(__file__).parent / "tasks.db"
 
 
 def get_connection():
+<<<<<<< HEAD
     # row_factory позволяет обращаться к колонкам по имени: row["title"]
+=======
+>>>>>>> feat/task-manager
     conn = sqlite3.connect(DB_NAME)
     conn.row_factory = sqlite3.Row
     return conn
 
 
 def init_db():
+<<<<<<< HEAD
     # closing() гарантирует закрытие соединения даже при ошибке
     with closing(get_connection()) as conn:
         conn.execute(
@@ -32,12 +39,33 @@ def init_db():
         # commit() теперь делает сам контекстный менеджер `with conn:`
         with conn:
             pass
+=======
+    with closing(get_connection()) as conn:
+        with conn: # Открываем транзакцию для DDL
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS tasks (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT NOT NULL,
+                    description TEXT,
+                    -- Ограничение CHECK на уровне БД (если таблица уже была создана, 
+                    -- это не применится, нужно удалить старый файл tasks.db для проверки)
+                    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'done')),
+                    created_at TEXT NOT NULL
+                )
+                """
+            )
+>>>>>>> feat/task-manager
 
 
 def add_task(title: str, description: str) -> int:
     created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with closing(get_connection()) as conn:
+<<<<<<< HEAD
         with conn: # Автоматический commit при успехе, rollback при ошибке
+=======
+        with conn:
+>>>>>>> feat/task-manager
             cursor = conn.execute(
                 "INSERT INTO tasks (title, description, status, created_at) VALUES (?, ?, ?, ?)",
                 (title, description, "pending", created_at),
@@ -81,7 +109,10 @@ def complete_task(task_id: int) -> bool:
 
 
 def reopen_task(task_id: int) -> bool:
+<<<<<<< HEAD
     # Дополнительное задание: возврат в статус pending
+=======
+>>>>>>> feat/task-manager
     with closing(get_connection()) as conn:
         with conn:
             cursor = conn.execute(
