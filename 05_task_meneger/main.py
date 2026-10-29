@@ -180,3 +180,5 @@ def main():
 
     except (KeyboardInterrupt, EOFError):
         print("\nВыход.")
+    if __name__ == "__main__":
+        main()
