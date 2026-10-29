@@ -91,3 +91,4 @@ def delete_task(task_id: int) -> bool:
         with conn:
             cursor = conn.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
             return cursor.rowcount > 0
+        
